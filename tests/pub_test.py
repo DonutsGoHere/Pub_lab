@@ -6,7 +6,7 @@ from src.drink import Drink
 
 class TestPub(unittest.TestCase):
     def setUp(self):
-        self.pub = Pub("The Prancing Pony", 100, [{"Tennants": 3.80}, {"Whiskey": 5.00}, {"House Red": 2.75}, {"White Wine Spritzer": 1.95}])
+        self.pub = Pub("The Prancing Pony", 100, [Drink("Tennants", 3.80, 1), Drink("Whiskey", 5.00, 3), Drink("House Red", 2.75, 2), Drink("White Wine Spritzer", 1.95, 1)])
         
     
     def test_pub_has_name(self):
@@ -29,10 +29,12 @@ class TestPub(unittest.TestCase):
         self.pub.add_drink("Vanilla Maitai")
         self.assertEqual(5, len(self.pub.drinks))
 
+
     def test_sell_a_drink(self):
-        customer = Customer("Daffy Duck", 20.00)
-        beer = Drink("Tennants", 3.80)
+        customer = Customer("Daffy Duck", 20.00, 19, 0)
+        beer = Drink("Tennants", 3.80, 1)
         self.pub.sell_a_drink(beer, customer)
+        self.assertLessEqual(18, customer.age)
         self.assertEqual(16.20, customer.wallet)
         self.assertEqual(103.80, self.pub.till)
 
